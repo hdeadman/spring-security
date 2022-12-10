@@ -1,6 +1,7 @@
-name: PR Build
+name: Fork Test Build
 
 on:
+  push:
   workflow_dispatch:
 
 permissions:
