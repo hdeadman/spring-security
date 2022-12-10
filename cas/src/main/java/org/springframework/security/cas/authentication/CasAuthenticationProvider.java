@@ -52,8 +52,8 @@ import org.springframework.util.Assert;
  * {@link CasServiceTicketAuthenticationToken} requests which contain a
  * <code>principal</code> name equal to either
  * {@link CasServiceTicketAuthenticationToken.CasUserAgentType#CAS_STATEFUL_IDENTIFIER} or
- * {@link CasServiceTicketAuthenticationToken.CasUserAgentType#CAS_STATELESS_IDENTIFIER}. It can also validate a
- * previously created {@link CasAuthenticationToken}.
+ * {@link CasServiceTicketAuthenticationToken.CasUserAgentType#CAS_STATELESS_IDENTIFIER}.
+ * It can also validate a previously created {@link CasAuthenticationToken}.
  *
  * @author Ben Alex
  * @author Scott Battaglia
@@ -94,7 +94,8 @@ public class CasAuthenticationProvider implements AuthenticationProvider, Initia
 			return null;
 		}
 		if (authentication instanceof CasServiceTicketAuthenticationToken
-				&& (!CasServiceTicketAuthenticationToken.CasUserAgentType.CAS_STATEFUL_IDENTIFIER.equals(authentication.getPrincipal())
+				&& (!CasServiceTicketAuthenticationToken.CasUserAgentType.CAS_STATEFUL_IDENTIFIER
+						.equals(authentication.getPrincipal())
 						&& !CasServiceTicketAuthenticationToken.CasUserAgentType.CAS_STATELESS_IDENTIFIER
 								.equals(authentication.getPrincipal()))) {
 			// CasServiceTicketAuthenticationToken not CAS related
@@ -116,7 +117,8 @@ public class CasAuthenticationProvider implements AuthenticationProvider, Initia
 		}
 
 		boolean stateless = (authentication instanceof CasServiceTicketAuthenticationToken
-				&& CasServiceTicketAuthenticationToken.CasUserAgentType.CAS_STATELESS_IDENTIFIER.equals(authentication.getPrincipal()));
+				&& CasServiceTicketAuthenticationToken.CasUserAgentType.CAS_STATELESS_IDENTIFIER
+						.equals(authentication.getPrincipal()));
 		CasAuthenticationToken result = null;
 
 		if (stateless) {

@@ -62,7 +62,7 @@ public class CasServiceTicketAuthenticationToken extends AbstractAuthenticationT
 	 * @param authorities
 	 */
 	public CasServiceTicketAuthenticationToken(CasUserAgentType userAgentType, Object credentials,
-												Collection<? extends GrantedAuthority> authorities) {
+			Collection<? extends GrantedAuthority> authorities) {
 		super(authorities);
 		this.userAgentType = userAgentType;
 		this.credentials = credentials;
@@ -77,7 +77,8 @@ public class CasServiceTicketAuthenticationToken extends AbstractAuthenticationT
 	 * @return CasServiceTicketAuthenticationToken with false isAuthenticated() result
 	 *
 	 */
-	public static CasServiceTicketAuthenticationToken unauthenticated(CasUserAgentType casUserAgentType, Object credentials) {
+	public static CasServiceTicketAuthenticationToken unauthenticated(CasUserAgentType casUserAgentType,
+			Object credentials) {
 		return new CasServiceTicketAuthenticationToken(casUserAgentType, credentials);
 	}
 
@@ -89,8 +90,8 @@ public class CasServiceTicketAuthenticationToken extends AbstractAuthenticationT
 	 * @return CasServiceTicketAuthenticationToken with true isAuthenticated() result
 	 *
 	 */
-	public static CasServiceTicketAuthenticationToken authenticated(CasUserAgentType casUserAgentType, Object credentials,
-																	Collection<? extends GrantedAuthority> authorities) {
+	public static CasServiceTicketAuthenticationToken authenticated(CasUserAgentType casUserAgentType,
+			Object credentials, Collection<? extends GrantedAuthority> authorities) {
 		return new CasServiceTicketAuthenticationToken(casUserAgentType, credentials, authorities);
 	}
 
@@ -118,8 +119,8 @@ public class CasServiceTicketAuthenticationToken extends AbstractAuthenticationT
 	}
 
 	public enum CasUserAgentType implements Serializable {
-		CAS_STATELESS_IDENTIFIER("_cas_stateless_"),
-		CAS_STATEFUL_IDENTIFIER("_cas_stateful_");
+
+		CAS_STATELESS_IDENTIFIER("_cas_stateless_"), CAS_STATEFUL_IDENTIFIER("_cas_stateful_");
 		private String value;
 
 		public String getValue() {
@@ -129,5 +130,7 @@ public class CasServiceTicketAuthenticationToken extends AbstractAuthenticationT
 		CasUserAgentType(String value) {
 			this.value = value;
 		}
+
 	}
+
 }
