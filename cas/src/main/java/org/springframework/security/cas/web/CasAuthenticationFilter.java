@@ -66,7 +66,7 @@ import org.springframework.util.Assert;
  * <p>
  * Processing the service ticket involves creating a
  * <code>CasServiceTicketAuthenticationToken</code> which uses
- * {@link #CAS_STATEFUL_IDENTIFIER} for the <code>principal</code> and the opaque ticket
+ * {@link CasServiceTicketAuthenticationToken.CasUserAgentType#CAS_STATEFUL_IDENTIFIER} for the <code>principal</code> and the opaque ticket
  * string as the <code>credentials</code>.
  * <h2>Obtaining Proxy Granting Tickets</h2>
  * <p>
@@ -91,7 +91,7 @@ import org.springframework.util.Assert;
  * <p>
  * Processing the proxy ticket involves creating a
  * <code>CasServiceTicketAuthenticationToken</code> which uses
- * {@link #CAS_STATELESS_IDENTIFIER} for the <code>principal</code> and the opaque ticket
+ * {@link CasServiceTicketAuthenticationToken.CasUserAgentType#CAS_STATELESS_IDENTIFIER} for the <code>principal</code> and the opaque ticket
  * string as the <code>credentials</code>. When a proxy ticket is successfully
  * authenticated, the FilterChain continues and the
  * <code>authenticationSuccessHandler</code> is not used.
@@ -178,19 +178,6 @@ import org.springframework.util.Assert;
 public class CasAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
 	/**
-	 * Used to identify a CAS request for a stateful user agent, such as a web browser.
-	 */
-	public static final String CAS_STATEFUL_IDENTIFIER = "_cas_stateful_";
-
-	/**
-	 * Used to identify a CAS request for a stateless user agent, such as a remoting
-	 * protocol client (e.g. Hessian, Burlap, SOAP etc). Results in a more aggressive
-	 * caching strategy being used, as the absence of a <code>HttpSession</code> will
-	 * result in a new authentication attempt on every request.
-	 */
-	public static final String CAS_STATELESS_IDENTIFIER = "_cas_stateless_";
-
-	/**
 	 * The last portion of the receptor url, i.e. /proxy/receptor
 	 */
 	private RequestMatcher proxyReceptorMatcher;
@@ -241,7 +228,7 @@ public class CasAuthenticationFilter extends AbstractAuthenticationProcessingFil
 			return null;
 		}
 		boolean serviceTicketRequest = serviceTicketRequest(request, response);
-		String username = serviceTicketRequest ? CAS_STATEFUL_IDENTIFIER : CAS_STATELESS_IDENTIFIER;
+		CasServiceTicketAuthenticationToken.CasUserAgentType username = serviceTicketRequest ? CasServiceTicketAuthenticationToken.CasUserAgentType.CAS_STATEFUL_IDENTIFIER : CasServiceTicketAuthenticationToken.CasUserAgentType.CAS_STATELESS_IDENTIFIER;
 		String password = obtainArtifact(request);
 		if (password == null) {
 			this.logger.debug("Failed to obtain an artifact (cas ticket)");
