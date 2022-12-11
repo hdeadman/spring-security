@@ -227,15 +227,15 @@ public class CasAuthenticationFilter extends AbstractAuthenticationProcessingFil
 			return null;
 		}
 		boolean serviceTicketRequest = serviceTicketRequest(request, response);
-		CasServiceTicketAuthenticationToken.CasUserAgentType username = serviceTicketRequest
+		CasServiceTicketAuthenticationToken.CasUserAgentType userAgentType = serviceTicketRequest
 				? CasServiceTicketAuthenticationToken.CasUserAgentType.CAS_STATEFUL_IDENTIFIER
 				: CasServiceTicketAuthenticationToken.CasUserAgentType.CAS_STATELESS_IDENTIFIER;
-		String password = obtainArtifact(request);
-		if (password == null) {
+		String serviceTicket = obtainArtifact(request);
+		if (serviceTicket == null) {
 			this.logger.debug("Failed to obtain an artifact (cas ticket)");
-			password = "";
+			serviceTicket = "";
 		}
-		CasServiceTicketAuthenticationToken authRequest = new CasServiceTicketAuthenticationToken(username, password);
+		CasServiceTicketAuthenticationToken authRequest = new CasServiceTicketAuthenticationToken(userAgentType, serviceTicket);
 		authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}
